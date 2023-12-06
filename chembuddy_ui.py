@@ -86,21 +86,21 @@ class ChemBuddyFrame(ttk.Frame):
         energy_label['text'] = 'Heat Energy in Joules:'
         energy_label.grid(row=4, column=0, sticky=tk.E)
 
-        energy_entry = ttk.Label(self)
-        energy_entry['width'] = 25
-        energy_entry['textvariable'] = self.energy
-        energy_entry['state'] = 'readonly'
-        energy_entry.grid(row=4, column=1)
+        energy_output = ttk.Label(self)
+        energy_output['width'] = 25
+        energy_output['textvariable'] = self.energy
+        energy_output['state'] = 'readonly'
+        energy_output.grid(row=4, column=1)
 
         type_label = ttk.Label(self)
         type_label['text'] = 'Reaction Type:'
         type_label.grid(row=5, column=0, sticky=tk.E)
 
-        type_entry = ttk.Label(self)
-        type_entry['width'] = 25
-        type_entry['textvariable'] = self.type
-        type_entry['state'] = 'readonly'
-        type_entry.grid(row=5, column=1)
+        type_output = ttk.Label(self)
+        type_output['width'] = 25
+        type_output['textvariable'] = self.type
+        type_output['state'] = 'readonly'
+        type_output.grid(row=5, column=1)
 
         button_frame = ttk.Frame(self)
         button_frame.grid(column=2, row=0, rowspan=3)
