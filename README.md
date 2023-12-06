@@ -3,7 +3,7 @@ ChemBuddy is an application designed for scientific computation. Right now the p
 As of right now, the application can calculate only one formula:
   (heat energy in joules) = (mass in grams) * (specific heat capacity in kilojoules per mole) * (change in temperature (degrees Celsius/Kelvin))
 
-NOTE: The Entries within the GUI only accept numbers. It will not perform any calculations if any data type besides an integer or floating point is entered.
+NOTE: The Entries within the GUI only accept numbers. It will not perform any calculations if any data type besides an integer or floating point is entered. Also, please only enter positive numbers, otherwise you won't get an accurate result.
 
 There are likely to be more options for different permutations of that formula, and even more formulas in the future.
 
