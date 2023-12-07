@@ -26,6 +26,9 @@ class ChemBuddyFrame(ttk.Frame):
 
         self.create_widgets()
 
+    def __str__(self):
+        return f'{self.energy}J'
+
     def calculate_heat(self):
         try:
             mass_val = float(self.mass.get())
