@@ -23,30 +23,50 @@ class ChemBuddyFrame(ttk.Frame):
         self.temp_fin = tk.DoubleVar()
         self.temp_init = tk.DoubleVar()
         self.type = tk.StringVar()
+        self.status = tk.StringVar()
 
         self.create_widgets()
 
     def __str__(self):
         return f'{self.energy}J'
 
-    def calculate_heat(self):
+    def is_numeric(self, value):
         try:
-            mass_val = float(self.mass.get())
-            spec_val = float(self.spec.get())
-            temp_init_val = float(self.temp_init.get())
-            temp_fin_val = float(self.temp_fin.get())
+            float(value)
+            return True
+        except ValueError:
+            return False
+
+    def calculate_heat(self):
+        mass_val = self.mass.get()
+        spec_val = self.spec.get()
+        temp_init_val = self.temp_init.get()
+        temp_fin_val = self.temp_fin.get()
+
+        if not (self.is_numeric(mass_val) and self.is_numeric(spec_val) and self.is_numeric(
+                temp_init_val) and self.is_numeric(temp_fin_val)):
+            self.status.set('Non-numeric input')
+            return
+
+        try:
+            mass_val = float(mass_val)
+            spec_val = float(spec_val)
+            temp_init_val = float(temp_init_val)
+            temp_fin_val = float(temp_fin_val)
             energy = float(self.energy.get())
 
             calc = Calculation(mass_val, spec_val, temp_init_val, temp_fin_val, energy)
 
             energy_result = calc.calc_heat()
             type_result = calc.rxn_type()
+            status_result = calc.status_check(mass_val, spec_val)
 
             self.energy.set(energy_result)
             self.type.set(type_result)
+            self.status.set(status_result)
 
         except ValueError:
-            self.type.set('Invalid input')
+            self.status.set('Invalid input')
 
     def create_widgets(self):
         mass_label = ttk.Label(self)
@@ -105,6 +125,16 @@ class ChemBuddyFrame(ttk.Frame):
         type_output['state'] = 'readonly'
         type_output.grid(row=5, column=1)
 
+        status_label = ttk.Label(self)
+        status_label['text'] = 'Status:'
+        status_label.grid(row=6, column=0, sticky=tk.E)
+
+        status_output = ttk.Label(self)
+        status_output['textvariable'] = self.status
+        status_output['width'] = 25
+        status_output['state'] = 'readonly'
+        status_output.grid(row=6, column=1)
+
         button_frame = ttk.Frame(self)
         button_frame.grid(column=2, row=0, rowspan=3)
 
@@ -124,7 +154,7 @@ class ChemBuddyFrame(ttk.Frame):
         clear_button.grid(row=1, column=0)
 
         for child in self.winfo_children():
-            child.grid_configure(padx=5, pady=3)
+            child.grid_configure(padx=6, pady=3)
 
     def clear_fields(self):
         self.mass.set(0.0)
@@ -133,11 +163,12 @@ class ChemBuddyFrame(ttk.Frame):
         self.temp_fin.set(0.0)
         self.energy.set(0.0)
         self.type.set('')
+        self.status.set('')
 
 
 if __name__ == '__main__':
     root = tk.Tk()
     root.title('ChemBuddy GUI Edition')
-    root.geometry('450x180')
+    root.geometry('450x200')
     ChemBuddyFrame(root)
     root.mainloop()
